@@ -46,7 +46,8 @@ func _on_body_entered(body):
 	if body.is_in_group("player"):
 		trigger_run_end()
 
-func trigger_run_end():
+func trigger_run_end() -> void:
+	print("Run end triggered!")
 	var camera := player.get_node_or_null("Camera2D") as Camera2D
 
 	Engine.time_scale = 0.2
@@ -54,7 +55,16 @@ func trigger_run_end():
 	if camera and camera.has_method("start_shake"):
 		camera.start_shake()
 
-	await get_tree().create_timer(2.0, true).timeout
+	await get_tree().create_timer(2.0).timeout
+
+	Engine.time_scale = 1.0
+	get_tree().reload_current_scene()
+
+
+	if camera and camera.has_method("start_shake"):
+		camera.start_shake()
+
+	await get_tree().create_timer(2.0).timeout
 
 	Engine.time_scale = 1.0
 	get_tree().reload_current_scene()

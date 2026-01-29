@@ -15,5 +15,6 @@ func _process(delta):
 			randf_range(-shake_strength, shake_strength),
 			randf_range(-shake_strength, shake_strength)
 		)
+		print("Camera shaking...")  # Debug print
 	else:
 		offset = Vector2.ZERO

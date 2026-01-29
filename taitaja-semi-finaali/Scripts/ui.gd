@@ -13,4 +13,3 @@ func _process(delta: float) -> void:
 	#if time > highscore:
 
 			#pass
-
