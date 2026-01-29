@@ -1,0 +1,102 @@
+[gd_scene load_steps=16 format=3 uid="uid://qwjs8x80dir6"]
+
+[ext_resource type="Script" uid="uid://rrve6j0cun2x" path="res://Scripts/pelaaja.gd" id="1_y0uig"]
+[ext_resource type="Texture2D" uid="uid://v2u1wnm4ajik" path="res://Assets/Free/Main Characters/Ninja Frog/Idle (32x32).png" id="2_61yyc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ddeei"]
+atlas = ExtResource("2_61yyc")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o1ugx"]
+atlas = ExtResource("2_61yyc")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0r0yg"]
+atlas = ExtResource("2_61yyc")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rtg4y"]
+atlas = ExtResource("2_61yyc")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hu81j"]
+atlas = ExtResource("2_61yyc")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hijt3"]
+atlas = ExtResource("2_61yyc")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8sqh5"]
+atlas = ExtResource("2_61yyc")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xcgts"]
+atlas = ExtResource("2_61yyc")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5nv5b"]
+atlas = ExtResource("2_61yyc")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t45tp"]
+atlas = ExtResource("2_61yyc")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v0jse"]
+atlas = ExtResource("2_61yyc")
+region = Rect2(320, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_omxr6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ddeei")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o1ugx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0r0yg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rtg4y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hu81j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hijt3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8sqh5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xcgts")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5nv5b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t45tp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v0jse")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b602r"]
+size = Vector2(24, 27)
+
+[node name="Pelaaja" type="CharacterBody2D"]
+script = ExtResource("1_y0uig")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_omxr6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3.5)
+shape = SubResource("RectangleShape2D_b602r")
