@@ -1,60 +1,89 @@
 extends Area2D
 
-@export var speed_multiplier := 1.0
-@export var danger_distance := 300.0
+@export var speed_multiplier: float = 1.0
+@export var danger_distance: float = 300.0
 
-@export var min_volume := -20.0
-@export var max_volume := 0.0
+@export var min_volume: float = -20.0
+@export var max_volume: float = 0.0
+@export var min_scale: float = 1.0
+@export var max_scale: float = 1.3
 
-@onready var sprite := $Sprite2D
-@onready var audio := $AudioStreamPlayer2D
+@onready var sprite: Sprite2D = $Sprite2D
+@onready var audio: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 var player: CharacterBody2D
+var active: bool = false
 var chase_speed: float = 0.0
 
 func _ready():
+	# Find the player by group
 	player = get_tree().get_first_node_in_group("Player") as CharacterBody2D
-
-	if player:
-		chase_speed = player.SPEED * speed_multiplier
-	else:
-		chase_speed = 100.0
-
-	body_entered.connect(_on_body_entered)
-	audio.play()
-
-
-func _physics_process(delta):
 	if not player:
+		push_warning("ChasingHazard could not find Player node!")
+	 
+	# Disable physics until triggered
+	set_physics_process(false)
+	
+	# Connect collision
+	body_entered.connect(_on_body_entered)
+	
+	# Make sure audio is ready but not playing yet
+	if audio:
+		audio.stop()
+
+func start_chase():
+	if not player:
+		# Try finding player again
+		player = get_tree().get_first_node_in_group("Player") as CharacterBody2D
+		if not player:
+			push_warning("ChasingHazard cannot start — Player not found")
+			return
+		
+	active = true
+	chase_speed = player.SPEED * speed_multiplier
+	set_physics_process(true)
+	
+	if audio:
+		audio.play()
+
+func _physics_process(delta: float) -> void:
+	if not active or not player:
 		return
-
-	var direction := (player.global_position - global_position).normalized()
+	
+	# Update speed dynamically
+	chase_speed = player.SPEED * speed_multiplier
+	
+	# Move toward player
+	var direction: Vector2 = (player.global_position - global_position).normalized()
 	global_position += direction * chase_speed * delta
-
+	
+	# Update visual/audio intensity
 	update_intensity(global_position.distance_to(player.global_position))
-
-func update_intensity(distance: float):
+	
+func update_intensity(distance: float) -> void:
 	var t: float = 1.0 - clamp(distance / danger_distance, 0.0, 1.0)
-
-	sprite.scale = Vector2.ONE * lerp(1.0, 1.3, t)
+	
+	# Scale sprite
+	sprite.scale = Vector2.ONE * lerp(min_scale, max_scale, t)
+	
+	# Tint sprite color (green -> red)
 	sprite.modulate = Color(1.0, 1.0 - t, 1.0 - t)
+	
+	# Adjust audio
+	if audio:
+		audio.volume_db = lerp(min_volume, max_volume, t)
+		audio.pitch_scale = lerp(0.9, 1.15, t)
 
-	audio.volume_db = lerp(min_volume, max_volume, t)
-	audio.pitch_scale = lerp(0.9, 1.15, t)
-
-func _on_body_entered(body):
-	if body.is_in_group("player"):
-		trigger_run_end()
-
-func trigger_run_end() -> void:
-	print("Run End triggered!")
-	var camera := player.get_node_or_null("Camera2D") as Camera2D
-	# Bullet-time slow-motion + shake
-	Engine.time_scale = 0.2
-	if camera:
-		camera.start_shake()
-	# Wait for 2 seconds real time (scaled)
-	await get_tree().create_timer(2.0 * Engine.time_scale).timeout
-	Engine.time_scale = 1.0
-	# Go to Game Over screen
-	get_tree().change_scene("res://scenes/GameOver.tscn")
+func _on_body_entered(body: Node) -> void:
+	if not active:
+		return
+	if body.is_in_group("Player"):
+		# Stop the hazard
+		active = false
+		set_physics_process(false)
+		  
+		# Trigger run end (bullet-time + shake handled in player/camera)
+		if body.has_method("on_run_end"):
+			body.on_run_end()
+		else:
+			print("Run end triggered!")
