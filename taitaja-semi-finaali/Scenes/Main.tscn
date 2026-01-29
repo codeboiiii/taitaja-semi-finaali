@@ -1,9 +1,20 @@
+
 [gd_scene load_steps=11 format=3 uid="uid://be2jex7fhfuxy"]
 
+[gd_scene load_steps=12 format=3 uid="uid://bwlvmg1037kef"]
+
+
 [ext_resource type="Texture2D" uid="uid://cwmtp74stjcat" path="res://Assets/Free/Terrain/Terrain (16x16).png" id="1_bo1nx"]
+[ext_resource type="Script" uid="uid://bd2c2o32ye15v" path="res://Scripts/main.gd" id="1_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://qwjs8x80dir6" path="res://Scenes/pelaaja.tscn" id="2_8gbba"]
+
 [ext_resource type="PackedScene" path="res://Scenes/chasing_hazard.tscn" id="3_8gbba"]
 [ext_resource type="Script" uid="uid://co3iyitccvoji" path="res://Scripts/stopwatch.gd" id="3_rgh2o"]
+
+[ext_resource type="PackedScene" uid="uid://ch26wloih40ut" path="res://Scenes/chasing_hazard.tscn" id="3_8gbba"]
+[ext_resource type="PackedScene" uid="uid://r84uvm44pkoy" path="res://Scenes/speed boost.tscn" id="5_21xkr"]
+[ext_resource type="PackedScene" uid="uid://buoei73veeg7" path="res://Scenes/slowdown.tscn" id="6_6bp64"]
+
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jjvhh"]
 texture = ExtResource("1_bo1nx")
@@ -299,6 +310,7 @@ size = Vector2(48, 50)
 size = Vector2(20, 109)
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_jjvhh")
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_kry3j")
@@ -350,7 +362,9 @@ text = "000"
 horizontal_alignment = 2
 
 [node name="ChasingHazard" parent="." instance=ExtResource("3_8gbba")]
+visible = false
 position = Vector2(-659, 11)
+
 
 [node name="Goal" type="Node2D" parent="."]
 
@@ -370,5 +384,17 @@ shape = SubResource("RectangleShape2D_jjvhh")
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tutorial Exit"]
 position = Vector2(410, -217.5)
 shape = SubResource("RectangleShape2D_kry3j")
+
+[node name="Speedchangers" type="Node2D" parent="."]
+
+[node name="Speedup" parent="Speedchangers" instance=ExtResource("5_21xkr")]
+position = Vector2(116, -32)
+
+[node name="Slowdown" parent="Speedchangers" instance=ExtResource("6_6bp64")]
+position = Vector2(369, 14)
+
+[connection signal="body_entered" from="Tutorial Exit" to="." method="_on_tutorial_exit_body_entered"]
