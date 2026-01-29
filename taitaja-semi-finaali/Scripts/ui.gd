@@ -11,4 +11,6 @@ func _process(delta: float) -> void:
 		time += delta
 		text = str(int(time))
 	#if time > highscore:
+
 			#pass
+
