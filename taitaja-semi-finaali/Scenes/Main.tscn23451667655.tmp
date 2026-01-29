@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bjvxvdtmk24en"]
+[gd_scene load_steps=16 format=3 uid="uid://bjvxvdtmk24en"]
 
 [ext_resource type="Texture2D" uid="uid://cwmtp74stjcat" path="res://Assets/Free/Terrain/Terrain (16x16).png" id="1_bo1nx"]
 [ext_resource type="Script" uid="uid://bd2c2o32ye15v" path="res://Scripts/main.gd" id="1_jjvhh"]
@@ -10,7 +10,6 @@
 [ext_resource type="Script" uid="uid://co1cnlqvwhd2d" path="res://Scripts/tutorial_exit.gd" id="6_50glp"]
 [ext_resource type="Script" uid="uid://d28u4g14go3q8" path="res://Scripts/goal.gd" id="6_bmxlf"]
 [ext_resource type="Script" uid="uid://2jgeymynhudf" path="res://Scripts/gameover_ui.gd" id="10_4kpch"]
-[ext_resource type="Script" uid="uid://bodca3wulnogp" path="res://Scripts/victory_ui.gd" id="11_4kpch"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jjvhh"]
 texture = ExtResource("1_bo1nx")
@@ -369,22 +368,17 @@ offset_bottom = -86.0
 theme_override_font_sizes/font_size = 32
 text = "Game over"
 
-[node name="Retry" type="Button" parent="GameoverUI"]
+[node name="Button" type="Button" parent="GameoverUI"]
 offset_left = 13.0
 offset_top = -76.0
 offset_right = 78.0
 offset_bottom = -45.0
 text = "Restart"
 
-[node name="TimeLabel" type="Label" parent="GameoverUI"]
-offset_right = 40.0
-offset_bottom = 23.0
-
 [node name="VictoryUI" type="CanvasLayer" parent="."]
 visible = false
-script = ExtResource("11_4kpch")
 
-[node name="TimeLabel" type="Label" parent="VictoryUI"]
+[node name="Label" type="Label" parent="VictoryUI"]
 offset_left = -15.0
 offset_top = -117.0
 offset_right = 112.0
@@ -398,10 +392,6 @@ offset_top = -77.0
 offset_right = 76.0
 offset_bottom = -46.0
 text = "Retry?"
-
-[node name="BestTimeLabel" type="Label" parent="VictoryUI"]
-offset_right = 40.0
-offset_bottom = 23.0
 
 [connection signal="body_entered" from="Goal/Area2D" to="Goal/Area2D" method="_on_body_entered"]
 [connection signal="body_entered" from="Goal/Area2D2" to="Goal/Area2D2" method="_on_body_entered"]

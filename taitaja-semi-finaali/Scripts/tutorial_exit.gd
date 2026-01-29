@@ -12,21 +12,24 @@ func _process(delta: float) -> void:
 
 
 func _on_TutorialExit_body_entered(body: Node2D) -> void:
+	print("TutorialExit triggered by: ", body.name)
 	if not body.is_in_group("Player"):
 		return
 	
 	# Start the run timer
-	#var run_timer = get_node("/root/Main/UI/RunTimerLabel")
-	#if run_timer and run_timer.has_method("start_timer"):
-		#run_timer.start_timer()
-	#else:
-		#push_warning("RunTimerLabel not found or missing start_timer()")
+	get_tree().current_scene.start_run()
 	
 	# Activate the hazard
-	var hazard = get_node("/root/Main/chasinghazard")
+	var hazard = get_tree().current_scene.get_node("ChasingHazard") as Area2D
 	if hazard and hazard.has_method("start_chase"):
 		hazard.start_chase()
 	else:
 		push_warning("ChasingHazard node not found or missing start_chase()")
-	self.monitoring = false
-	self.monitorable = false
+	call_deferred("set_deferred_monitoring", false)
+	call_deferred("set_deferred_monitorable", false)
+	
+func set_deferred_monitoring(value: bool):
+	monitoring = value
+
+func set_deferred_monitorable(value: bool):
+	monitorable = value

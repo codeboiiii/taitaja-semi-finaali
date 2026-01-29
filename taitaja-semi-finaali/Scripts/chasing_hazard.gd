@@ -11,7 +11,7 @@ extends Area2D
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var audio: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
-var player: CharacterBody2D
+var player: CharacterBody2D = null
 var active: bool = false
 var chase_speed: float = 0.0
 
@@ -81,7 +81,8 @@ func _on_body_entered(body: Node) -> void:
 		# Stop the hazard
 		active = false
 		set_physics_process(false)
-		  
+		 
+		get_tree().current_scene.end_run_gameover()
 		# Trigger run end (bullet-time + shake handled in player/camera)
 		if body.has_method("on_run_end"):
 			body.on_run_end()
