@@ -1,19 +1,31 @@
-[gd_scene load_steps=2 format=3 uid="uid://lt5bnt38vfcc"]
+[gd_scene load_steps=3 format=3 uid="uid://lt5bnt38vfcc"]
 
 [ext_resource type="Script" uid="uid://xy603ipbvrej" path="res://Scripts/ui.gd" id="1_jxero"]
 
-[node name="Ui" type="Control"]
+[sub_resource type="LabelSettings" id="LabelSettings_jxero"]
+
+[node name="Ui" type="Control" node_paths=PackedStringArray("stopwatch_label")]
+modulate = Color(1, 0.9098039, 0.8392157, 1)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 8.0
+offset_right = -4.0
+offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_jxero")
+stopwatch_label = NodePath("SpeedrunTimer")
 
 [node name="SpeedrunTimer" type="Label" parent="."]
 layout_mode = 1
-offset_right = 164.0
-offset_bottom = 88.0
+offset_left = 470.0
+offset_top = -3.0
+offset_right = 701.0
+offset_bottom = 35.0
 theme_override_font_sizes/font_size = 32
-text = "00:00"
+text = "00:00:000"
+label_settings = SubResource("LabelSettings_jxero")
+horizontal_alignment = 1
