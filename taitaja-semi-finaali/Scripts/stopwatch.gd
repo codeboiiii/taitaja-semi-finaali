@@ -1,23 +1,26 @@
 extends Node
 class_name Stopwatch
 
-var time = 0.0 
-var stopped = false
-var elapsed_time := 0.0
+var time: float = 0.0 
+var mint: int = 0
+var sec: int = 0
+var msec: int = 0
 
-func _process(delta):
-	if stopped:
-		return
+
+func _process(delta) -> void:
 	time += delta
+	msec = fmod(time, 1) * 100
+	sec = fmod(time, 60)
+	mint = fmod(time, 3600) / 60
+	$Minutes.text = "%02d:" % mint
+	$Seconds.text = "%02d." % sec
+	$Msecs.Text = "%03d" % msec
 	
-func reset():
-	time = 0.0 
+func stop() -> void:
+	set_process(false)
 	
-func time_to_string(time: float) -> String:
-	var msec := int(fmod(time, 1.0) * 1000)
-	var sec := int(fmod(time, 60))
-	var mint := int(time / 60)
+func get_time_formatted():
+	return "%02d:%02d:%03d"
 
-	# Formatting: 00:00:000
-	return "%02d:%02d:%03d" % [mint, sec, msec]
+
 	
