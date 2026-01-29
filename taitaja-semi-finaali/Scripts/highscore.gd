@@ -9,17 +9,14 @@ func save_score(level_name: String, time: float):
 		_write_file()
 
 func load_scores():
-	if FileAccess.file_exists(save_file):
-		var file = FileAccess.open(save_file, FileAccess.READ)
-		if file:
-			var text = file.get_as_text()
-			var result = JSON.parse_string(text)
-			if result.error == OK:
-				highscores = result.result
-			file.close()
+	var file = File.new()
+	if file.file_exists(save_file):
+		file.open(save_file, File.READ)
+		highscores = parse_json(file.get_as_text())
+		file.close()
 
 func _write_file():
-	var file = FileAccess.open(save_file, FileAccess.WRITE)
-	if file:
-		file.store_string(JSON.stringify(highscores))
-		file.close()
+	var file = File.new()
+	file.open(save_file, File.WRITE)
+	file.store_string(to_json(highscores))
+	file.close()

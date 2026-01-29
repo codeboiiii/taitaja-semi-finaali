@@ -15,10 +15,6 @@ run/main_scene="uid://be2jex7fhfuxy"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
-[autoload]
-
-Highscore="*res://Scripts/highscore.gd"
-
 [input]
 
 Input_left={

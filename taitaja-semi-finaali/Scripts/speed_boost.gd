@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var boost_speed := 100
+@export var boost_speed := 200
 @export var boost_duration := 1.5
 
 func _on_body_entered(body):
