@@ -6,6 +6,9 @@ extends CharacterBody2D
 @export var DASHSPEED := 150.0
 const JUMP_VELOCITY = -400.0
 
+var is_wall_grabbing := false
+var wall_grab_dir := 0
+
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -32,5 +35,21 @@ func _physics_process(delta: float) -> void:
 			velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-
 	move_and_slide()
+	
+	# Check for wall collision
+	if is_on_wall() and Input.is_action_pressed("Input_jump") == false:
+		is_wall_grabbing = true
+		animated_sprite.play("Wall_grab")
+		wall_grab_dir = sign(get_wall_normal().x)
+		velocity.y = 0 # Stick to wall
+		
+	elif is_wall_grabbing:
+		if Input.is_action_just_pressed("Input_jump"):
+			velocity.y = JUMP_VELOCITY
+			velocity.x = -wall_grab_dir * SPEED * 1.2
+			is_wall_grabbing = false
+	
+func _input(event):
+	if event.is_action_pressed("Input_reset_level"):
+		get_tree().reload_current_scene()
