@@ -9,7 +9,14 @@ const JUMP_VELOCITY = -400.0
 var is_wall_grabbing := false
 var wall_grab_dir := 0
 
+var dead := false
+
+
 func _physics_process(delta: float) -> void:
+	if dead:
+		velocity = Vector2.ZERO
+		return
+	
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
